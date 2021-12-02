@@ -23,7 +23,7 @@ public class LoginMessage extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// 加载驱动
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+			Class.forName("com.mysql.jdbc.Driver")
 					.newInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -41,8 +41,8 @@ public class LoginMessage extends HttpServlet {
 
 		// 获取连接
 		try {
-			String uri = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ComeHere";
-			String user = "xg";
+			String uri = "jdbc:mysql://127.0.0.1:3306/test";
+			String user = "test";
 			String password = "123456";
 			Connection con = DriverManager.getConnection(uri, user, password);
 			// 创建Statement对象

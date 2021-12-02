@@ -53,8 +53,8 @@ public class RegisterMessage extends HttpServlet {
 		} else {
 			// 获取连接
 			try {
-				String uri = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ComeHere";
-				String user = "xg";
+				String uri = "jdbc:mysql://127.0.0.1:3306/test";
+				String user = "test";
 				String password = "123456";
 				Connection con = DriverManager.getConnection(uri, user,
 						password);

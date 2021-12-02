@@ -17,7 +17,7 @@ public class Exit extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// 加载驱动
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+			Class.forName("com.mysql.jdbc.Driver")
 					.newInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

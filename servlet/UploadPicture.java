@@ -29,7 +29,7 @@ public class UploadPicture extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// 加载驱动
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+			Class.forName("com.mysql.jdbc.Driver")
 					.newInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -62,7 +62,7 @@ public class UploadPicture extends HttpServlet {
 			HttpSession session=request.getSession(true);
 			request.setAttribute("upload", upload);
 			String tempFileName=session.getId();
-			File f1 = new File("D:\\Tomcat 7.0\\webapps\\Project1\\image1",tempFileName);
+			File f1 = new File("/home/act/test/java/glxt/apache-tomcat-8.5.72/webapps/ROOT/upload",tempFileName);
 			FileOutputStream o = new FileOutputStream(f1);// 实例化文件输出流对象
 			InputStream in = request.getInputStream();// 实例化文件输入流对象
 			byte[] b= new byte[10000];
@@ -111,7 +111,7 @@ public class UploadPicture extends HttpServlet {
 				}
 			}
 			// 根据客户上传文件的名字，将该文件存入磁盘
-			File dir = new File("D:\\Tomcat 7.0\\webapps\\Project1\\image1",savedFileName);
+			File dir = new File("/home/act/test/java/glxt/apache-tomcat-8.5.72/webapps/ROOT/upload",savedFileName);
 			dir.mkdir();
 			// 首先删除用户曾上传过的图像文件：
 			File file[] = dir.listFiles();
@@ -146,8 +146,8 @@ public class UploadPicture extends HttpServlet {
 			random2.close();
 			random.close();
 			// 获取连接
-			String uri = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ComeHere";
-			String user = "xg";
+			String uri = "jdbc:mysql://127.0.0.1:3306/test";
+			String user = "test";
 			String password = "123456";
 			Connection con = DriverManager.getConnection(uri, user, password);
 			// 创建Statement对象，用于发送和执行SQL语句
