@@ -30,7 +30,6 @@
 
 ## tree  
 
-classes
 ```
 ├── findMember.jsp
 ├── head.html
