@@ -1,59 +1,39 @@
 package tom.bean;
 
 public class UpdateRegister {
-	private String logname;// 声明登录名变量
-	private String newSex;// 声明新的性别变量
-	private int newAge;// 声明新的年龄变量
-	private String newEmail;// 声明新的邮件变量
-	private String newPhone;// 声明新的电话变量
-	private String newMessage;// 声明新的简介变量
-
-	public String getLogname() {
-		return logname;
-	}
-
-	public void setLogname(String logname) {
-		this.logname = logname;
-	}
-
-	public String getNewSex() {
-		return newSex;
-	}
-
-	public void setNewSex(String newSex) {
-		this.newSex = newSex;
-	}
-
-	public int getNewAge() {
-		return newAge;
-	}
-
-	public void setNewAge(int newAge) {
-		this.newAge = newAge;
-	}
-
-	public String getNewEmail() {
-		return newEmail;
-	}
-
-	public void setNewEmail(String newEmail) {
-		this.newEmail = newEmail;
-	}
-
-	public String getNewPhone() {
-		return newPhone;
-	}
-
-	public void setNewPhone(String newPhone) {
-		this.newPhone = newPhone;
-	}
-
-	public String getNewMessage() {
-		return newMessage;
-	}
-
-	public void setNewMessage(String newMessage) {
-		this.newMessage = newMessage;
-	}
-
+  private String logname;
+  
+  private String newSex;
+  
+  private int newAge;
+  
+  private String newEmail;
+  
+  private String newPhone;
+  
+  private String newMessage;
+  
+  public String getLogname() { return this.logname; }
+  
+  public void setLogname(String paramString) { this.logname = paramString; }
+  
+  public String getNewSex() { return this.newSex; }
+  
+  public void setNewSex(String paramString) { this.newSex = paramString; }
+  
+  public int getNewAge() { return this.newAge; }
+  
+  public void setNewAge(int paramInt) { this.newAge = paramInt; }
+  
+  public String getNewEmail() { return this.newEmail; }
+  
+  public void setNewEmail(String paramString) { this.newEmail = paramString; }
+  
+  public String getNewPhone() { return this.newPhone; }
+  
+  public void setNewPhone(String paramString) { this.newPhone = paramString; }
+  
+  public String getNewMessage() { return this.newMessage; }
+  
+  public void setNewMessage(String paramString) { this.newMessage = paramString; }
 }

@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,86 +13,84 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import tom.bean.Login;
 import tom.bean.ShowResult;
 
 
 public class ShowMember extends HttpServlet {
-
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		// 加载驱动
-		try {
-			Class.forName("com.mysql.jdbc.Driver")
-					.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		super.init(config);
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(true);
-		Login login = (Login) session.getAttribute("login");// 获取用户登录时的JavaBean
-		boolean ok = true;
-		if (login == null) {
-			ok = false;
-			response.sendRedirect("login.jsp");
-		}
-		if (ok == true) {
-			continueDoGet(request, response);
-		}
-	}
-
-	private void continueDoGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		ShowResult showResult = new ShowResult();// 获取MemberInformation的JavaBean
-		request.setAttribute("showResult", showResult);
-		StringBuffer str=new StringBuffer();
-		// 获取连接
-		try {
-			String uri = "jdbc:mysql://127.0.0.1:3306/test";
-			String user = "test";
-			String password = "123456";
-			Connection con = DriverManager.getConnection(uri, user, password);
-			// 创建Statement对象
-			Statement st = con.createStatement();
-			//写sql语句，查询member表中的所有数据
-			String sql="select * from member";
-			ResultSet rs=st.executeQuery(sql);
-			while(rs.next()){
-				str.append("<tr>");
-				str.append("<td>"+rs.getString(1)+"</td>");
-				str.append("<td>"+rs.getString(3)+"</td>");
-				str.append("<td>"+rs.getInt(4)+"</td>");
-				str.append("<td>"+rs.getString(5)+"</td>");
-				str.append("<td>"+rs.getString(6)+"</td>");
-				str.append("<td>"+rs.getString(7)+"</td>");
-				String s="<img src=image1/"+rs.getString(8)+"/"+rs.getString(8)+" "+"width=100 height=100/>";
-				str.append("<td>"+s+"</td>");
-				str.append("</tr>");
-			}
-		} catch (Exception e) {
-			response.setContentType("text/html;charset=GB2312");
-			PrintWriter out=response.getWriter();
-			out.println("<html><body>");
-			out.println("查询不到结果");
-			out.println("回到浏览会员页面:<a href='lookMember.jsp'>");
-			out.println("</body></html>");
-		}
-		showResult.setResult(new String(str));
-		System.out.println(showResult.getResult());
-		RequestDispatcher dispatcher=request.getRequestDispatcher("showMember.jsp");
-		dispatcher.forward(request, response);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
+  public void init(ServletConfig paramServletConfig) throws ServletException {
+    try {
+      Class.forName("com.mysql.jdbc.Driver")
+        .newInstance();
+    } catch (Exception exception) {
+      exception.printStackTrace();
+    } 
+    super.init(paramServletConfig);
+  }
+  
+  protected void doGet(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse) throws ServletException, IOException {
+    HttpSession httpSession = paramHttpServletRequest.getSession(true);
+    Login login = (Login)httpSession.getAttribute("login");
+    boolean bool = true;
+    String str1 = "", str2 = "admin";
+    if (login == null) {
+      paramHttpServletResponse.sendRedirect("login.jsp");
+    } else {
+      str1 = login.getLogname();
+      if (str2.equals(str1)) {
+        continueDoGet(paramHttpServletRequest, paramHttpServletResponse);
+      } else {
+        showMessage("仅限管理员使用！", paramHttpServletResponse);
+      } 
+    } 
+  }
+  
+  private void continueDoGet(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse) throws ServletException, IOException {
+    ShowResult showResult = new ShowResult();
+    paramHttpServletRequest.setAttribute("showResult", showResult);
+    StringBuffer stringBuffer = new StringBuffer();
+    try {
+      String str1 = "jdbc:mysql://127.0.0.1:3306/test";
+      String str2 = "test";
+      String str3 = "123456";
+      Connection connection = DriverManager.getConnection(str1, str2, str3);
+      Statement statement = connection.createStatement();
+      String str4 = "select * from member";
+      ResultSet resultSet = statement.executeQuery(str4);
+      while (resultSet.next()) {
+        stringBuffer.append("<tr>");
+        stringBuffer.append("<td>" + resultSet.getString(2) + "</td>");
+        stringBuffer.append("<td>" + resultSet.getString(4) + "</td>");
+        stringBuffer.append("<td>" + resultSet.getInt(5) + "</td>");
+        stringBuffer.append("<td>" + resultSet.getString(6) + "</td>");
+        stringBuffer.append("<td>" + resultSet.getString(7) + "</td>");
+        stringBuffer.append("<td>" + resultSet.getString(8) + "</td>");
+        String str = "<img src=/upload/" + resultSet.getString(9) + "/" + resultSet.getString(9) + " width=100 height=100/>";
+        stringBuffer.append("<td>" + str + "</td>");
+        stringBuffer.append("</tr>");
+      } 
+    } catch (Exception exception) {
+      paramHttpServletResponse.setContentType("text/html;charset=utf-8");
+      PrintWriter printWriter = paramHttpServletResponse.getWriter();
+      printWriter.println("<html><body>");
+      printWriter.println("查询不到结果");
+      printWriter.println("回到浏览会员页面:<a href='lookMember.jsp'>");
+      printWriter.println("</body></html>");
+    } 
+    showResult.setResult(new String(stringBuffer));
+    System.out.println(showResult.getResult());
+    RequestDispatcher requestDispatcher = paramHttpServletRequest.getRequestDispatcher("showMember.jsp");
+    requestDispatcher.forward(paramHttpServletRequest, paramHttpServletResponse);
+  }
+  
+  private void showMessage(String paramString, HttpServletResponse paramHttpServletResponse) throws IOException {
+    paramHttpServletResponse.setContentType("text/html;charSet=utf-8");
+    PrintWriter printWriter = paramHttpServletResponse.getWriter();
+    printWriter.println("<html><body>");
+    printWriter.println(paramString + ",");
+    printWriter.println("<a href='lookMember.jsp'>继续查看</a>");
+    printWriter.println("</body></html>");
+  }
+  
+  protected void doPost(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse) throws ServletException, IOException { doGet(paramHttpServletRequest, paramHttpServletResponse); }
 }

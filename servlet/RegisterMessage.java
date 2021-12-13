@@ -4,109 +4,90 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import tom.bean.Register;
 
+
 public class RegisterMessage extends HttpServlet {
-
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		// 加载驱动
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
-					.newInstance();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		super.init(config);
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// 获取表单传递过来的参数
-		request.setCharacterEncoding("utf-8");
-		String name = request.getParameter("logname");
-		String pwd = request.getParameter("password");
-		String pwd1 = request.getParameter("password1");
-		String s = request.getParameter("sex");
-		String a = request.getParameter("age");
-		String e = request.getParameter("email");
-		String p = request.getParameter("phone");
-		String m = request.getParameter("message");
-
-		if (name == null || name.equals("")) {
-			showMessage("会员名称不能为空", response);
-		} else if (pwd == null || pwd.equals("")) {
-			showMessage("设置密码不能为空", response);
-		} else if (!pwd.equals(pwd1)) {
-			showMessage("两次输入密码不一致", response);
-		} else {
-			// 获取连接
-			try {
-				String uri = "jdbc:mysql://127.0.0.1:3306/test";
-				String user = "test";
-				String password = "123456";
-				Connection con = DriverManager.getConnection(uri, user,
-						password);
-				// 创建Statement对象，用于发送和执行SQL语句
-				Statement st = con.createStatement();
-				int age=0;
-				if(!(a==null || a.equals(""))){
-					age=Integer.parseInt(a);
-				}
-				
-				// 创建sql语句
-				String sql = "insert into member(logname,password,sex,age,phone,email,message) values ('"+name+"','"+pwd+"','"+s+"','"+age+"','"+p+"','"+e+"','"+m+"')";
-				// 执行sql语句，插入数据
-				int i = st.executeUpdate(sql);
-				if(i!=0){
-					Register register=new Register();//获取Register对象
-					//设置相应的属性
-					register.setLogname(name);
-					register.setPassword(pwd1);
-					register.setSex(s);
-					register.setAge(age);
-					register.setPhone(p);
-					register.setEmail(e);
-					register.setMessage(m);
-					/*将JavaBean写入request对象中*/
-					request.setAttribute("register", register);
-					//注册成功，跳转重定向
-					RequestDispatcher dispatcher=request.getRequestDispatcher("registerMessage.jsp");
-					dispatcher.forward(request, response);
-				}else{
-					showMessage("数据异常，请稍后重试",response);
-				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
-	private void showMessage(String message, HttpServletResponse response)
-			throws IOException {
-		// TODO Auto-generated method stub
-		response.setContentType("text/html;charSet=GB2312");
-		PrintWriter out = response.getWriter();
-		out.println("<html><body>");
-		out.println(message + ",");
-		out.println("<a href='register.jsp'>继续注册</a>");
-		out.println("</body></html>");
-	}
+  public void init(ServletConfig paramServletConfig) throws ServletException {
+    try {
+      Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+        .newInstance();
+    } catch (Exception exception) {
+      exception.printStackTrace();
+    } 
+    super.init(paramServletConfig);
+  }
+  
+  protected void doGet(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse) throws ServletException, IOException {
+    paramHttpServletRequest.setCharacterEncoding("utf-8");
+    String str1 = paramHttpServletRequest.getParameter("logname");
+    String str2 = paramHttpServletRequest.getParameter("password");
+    String str3 = paramHttpServletRequest.getParameter("password1");
+    String str4 = paramHttpServletRequest.getParameter("sex");
+    String str5 = paramHttpServletRequest.getParameter("age");
+    String str6 = paramHttpServletRequest.getParameter("email");
+    String str7 = paramHttpServletRequest.getParameter("phone");
+    String str8 = paramHttpServletRequest.getParameter("message");
+    if (str1 == null || str1.equals("")) {
+      showMessage("会员名称不能为空", paramHttpServletResponse);
+    } else if (str2 == null || str2.equals("")) {
+      showMessage("设置密码不能为空", paramHttpServletResponse);
+    } else if (!str2.equals(str3)) {
+      showMessage("两次输入密码不一致", paramHttpServletResponse);
+    } else {
+      try {
+        String str9 = "jdbc:mysql://127.0.0.1:3306/test";
+        String str10 = "test";
+        String str11 = "123456";
+        Connection connection = DriverManager.getConnection(str9, str10, str11);
+        Statement statement = connection.createStatement();
+        int i = 0;
+        if (str5 != null && !str5.equals(""))
+          i = Integer.parseInt(str5); 
+        String str12 = "insert into member(logname,password,sex,age,phone,email,message) values ('" + str1 + "','" + str2 + "','" + str4 + "','" + i + "','" + str7 + "','" + str6 + "','" + str8 + "')";
+        ResultSet resultSet = statement.executeQuery("select * from member where logname='" + str1 + "'");
+        if (resultSet.next()) {
+          showMessage("重复注册", paramHttpServletResponse);
+        } else {
+          int j = statement.executeUpdate(str12);
+          if (j != 0) {
+            Register register = new Register();
+            register.setLogname(str1);
+            register.setPassword(str3);
+            register.setSex(str4);
+            register.setAge(i);
+            register.setPhone(str7);
+            register.setEmail(str6);
+            register.setMessage(str8);
+            paramHttpServletRequest.setAttribute("register", register);
+            RequestDispatcher requestDispatcher = paramHttpServletRequest.getRequestDispatcher("registerMessage.jsp");
+            requestDispatcher.forward(paramHttpServletRequest, paramHttpServletResponse);
+          } else {
+            showMessage("数据异常，请稍后重试", paramHttpServletResponse);
+          } 
+        } 
+      } catch (Exception exception) {
+        exception.printStackTrace();
+      } 
+    } 
+  }
+  
+  protected void doPost(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse) throws ServletException, IOException { doGet(paramHttpServletRequest, paramHttpServletResponse); }
+  
+  private void showMessage(String paramString, HttpServletResponse paramHttpServletResponse) throws IOException {
+    paramHttpServletResponse.setContentType("text/html;charSet=GB2312");
+    PrintWriter printWriter = paramHttpServletResponse.getWriter();
+    printWriter.println("<html><body>");
+    printWriter.println(paramString + ",");
+    printWriter.println("<a href='register.jsp'>继续注册</a>");
+    printWriter.println("</body></html>");
+  }
 }

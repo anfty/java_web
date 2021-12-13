@@ -1,0 +1,100 @@
+<style>
+  table {
+    FILTER: alpha(opacity=40);
+    border:none；
+  }
+  input {
+    border-radius:6px;
+    /* margin:0px 0px 0px 12px; */
+    border:2px solid #DBDBDB;
+    /* <input type="text" name="bianhao" value="" placeholder="请输入商品编号"  maxlength="10" size="10" style="width:105px; height:22px;border-radius:4px;"/>  */
+  }
+    .myset{
+      text-align: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .dropbtn {
+    background-color:darkgray;
+    color: white;
+    /* padding: 16px; */
+    font-size: 10px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color:darkgray;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    height: 10px;
+    color: black;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color:darkslateblue;
+}
+</style>
+<script>
+
+</script>
+<!-- <div align="center">
+  <table width="536">
+    <tr>
+      <td colspan="4"><div align="center"><strong><font size="+3" color="#FFCCCC">会员管理系统</font> </strong></div></td>
+    </tr>
+    <tr>
+      <td width="173"><div align="center"><a href="register.jsp">会员注册</a></div></td>
+      <td width="119"><div align="center"><a href="login.jsp">会员登录</a></div></td>
+      <td width="112"><div align="center"><a href="uploadPic.jsp">上传照片</a></div></td>
+      <td width="112"><div align="center"><a href="lookMember.jsp">浏览会员</a></div></td>
+    </tr>
+    <tr>
+      <td><div align="center"><a href="updateRegister.jsp">修改注册信息</a></div></td>
+      <td><div align="center"><a href="updatePwd.jsp">修改密码</a></div></td>
+      <td><div align="center"><a href="exit">退出登录</a></div></td>
+      <td><div align="center"><a href="index.jsp">返回主页</a></div></td>
+    </tr>
+  </table>
+</div> -->
+
+<div class="dropdown" style="float:left;">
+  <button class="dropbtn"><a href="index.jsp" style="text-decoration:none;color:#f1f1f1;">MENU</a></button>
+  <div class="dropdown-content" style="left:0;">
+    <a href="index.jsp">HOME</a>
+    <a href="register.jsp">UPLOGIN</a>
+    <a href="login.jsp">LOGIN</a>
+    <a href="uploadPic.jsp">上传照片</a>
+    <a href="lookMember.jsp">浏览会员</a>
+    <a href="updateRegister.jsp">修改信息</a>
+    <a href="updatePwd.jsp">修改密码</a>
+    <a href="exit">退出登录</a>
+    <!-- <a href="showAllMember.jsp">s</a> -->
+  </div>
+</div>
+
